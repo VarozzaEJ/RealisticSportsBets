@@ -126,13 +126,6 @@ const players = [
 let teamOneBet = 0
 let teamTwoBet = 0
 
-let teamOne = [{
-    totalSkill: 0,
-}]
-
-let teamTwo = [{
-    totalSkill: 0,
-}]
 
 function draftPlayers() {
     console.log("Drafting Players")
@@ -170,9 +163,11 @@ function drawTeamTwo() {
     teamTwoElem.innerHTML = teamTwoEmojis
 }
 
+
+
 function drawBank() {
     const bankElem = document.getElementById('Bank')
-    bankElem.innerHTML = bank
+    bankElem.innerText = bank
     checkBank()
 }
 function checkBank() {
@@ -181,6 +176,8 @@ function checkBank() {
         location.reload()
     }
 }
+
+
 
 function placeBetTeamOne(bet) {
     let teamOneTotalSkill = 0
@@ -222,6 +219,46 @@ function placeBetTeamTwo(bet) {
     draftPlayers()
 }
 
+function allInTeamOne(bet) {
+    let teamOneTotalSkill = 0
+    let teamTwoTotalSkill = 0
+    teamOneBet += bet
+    const teamOne = players.filter((player) => player.teamNumber == 1)
+    for (let i = 0; i < teamOne.length; i++) {
+        teamOneTotalSkill += teamOne[i].skill
+    }
+    console.log(`This is Team Two's Bet: ${teamTwoBet}`)
+    const teamTwo = players.filter((player) => player.teamNumber == 2)
+    for (let i = 0; i < teamTwo.length; i++) {
+        teamTwoTotalSkill += teamTwo[i].skill
+    }
+    checkTotalSkillAllInTeamOne(teamTwoTotalSkill, teamOneTotalSkill, bet)
+    console.log(`This is team one's total skill: ${teamOneTotalSkill}`)
+    console.log(`This is team two's total skill: ${teamTwoTotalSkill}`)
+    drawBank()
+    draftPlayers()
+}
+
+function allInTeamTwo(bet) {
+    let teamOneTotalSkill = 0
+    let teamTwoTotalSkill = 0
+    teamTwoBet += bet
+    const teamOne = players.filter((player) => player.teamNumber == 1)
+    for (let i = 0; i < teamOne.length; i++) {
+        teamOneTotalSkill += teamOne[i].skill
+    }
+    console.log(`This is Team Two's Bet: ${teamTwoBet}`)
+    const teamTwo = players.filter((player) => player.teamNumber == 2)
+    for (let i = 0; i < teamTwo.length; i++) {
+        teamTwoTotalSkill += teamTwo[i].skill
+    }
+    checkTotalSkillAllInTeamTwo(teamTwoTotalSkill, teamOneTotalSkill, bet)
+    console.log(`This is team one's total skill: ${teamOneTotalSkill}`)
+    console.log(`This is team two's total skill: ${teamTwoTotalSkill}`)
+    drawBank()
+    draftPlayers()
+}
+
 function checkTotalSkillTeamOne(teamOneSkill, teamTwoSkill, bet) {
     if (teamOneSkill > teamTwoSkill) {
         bank += bet
@@ -241,11 +278,39 @@ function checkTotalSkillTeamTwo(teamTwoSkill, teamOneSkill, bet) {
 
     } else {
         bank -= bet
-        window.alert(`You lost ${bet} Dollars!`)
+        window.alert(`You lost all of your Money!`)
     }
     console.log(`This is the money in the bank: ${bank}`)
 
 }
+
+function checkTotalSkillAllInTeamOne(teamOneSkill, teamTwoSkill, bet) {
+    if (teamOneSkill > teamTwoSkill) {
+        bank += bet
+        window.alert(`You won ${bank} Dollars!`)
+    } else {
+        bank -= bet
+        window.alert(`You lost all of your Money!`)
+    }
+    console.log(`This is the money in the bank: ${bank}`)
+
+}
+
+function checkTotalSkillAllInTeamTwo(teamTwoSkill, teamOneSkill, bet) {
+    if (teamTwoSkill > teamOneSkill) {
+        bank += bet
+        window.alert(`You won ${bank} Dollars!`)
+
+    } else {
+        bank -= bet
+        window.alert(`You lost all of your Money!`)
+    }
+    console.log(`This is the money in the bank: ${bank}`)
+
+}
+
+
+
 
 
 
