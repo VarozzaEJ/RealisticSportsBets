@@ -123,9 +123,22 @@ const players = [
     },
 ]
 
+let teamOneBet = 0
+let teamTwoBet = 0
+
+let teamOne = [{
+    totalSkill: 0,
+}]
+
+let teamTwo = [{
+    totalSkill: 0,
+}]
+
 function draftPlayers() {
     console.log("Drafting Players")
+    assignTeamToPlayers()
     drawTeamOne()
+    drawTeamTwo()
 }
 
 function assignTeamToPlayers() {
@@ -137,9 +150,64 @@ function assignTeamToPlayers() {
 }
 
 function drawTeamOne() {
+    //run throught the players array and find which players have a new team name of 1
+    //inject those names into the div with the id of teamOnePlayers
+    const teamOne = players.filter((player) => player.teamNumber == 1)
 
-    const player = players.forEach((player) => player.teamNumber = 1)
-    document.getElementById('teamOnePlayers').innerText = `${players.emoji}`
+    let teamOneEmojis = ''
+
+    teamOne.forEach((person) => teamOneEmojis += `<span class="fs-2">${person.emoji}</span>`)
+
+    const teamOneElem = document.getElementById("teamOnePlayers")
+    teamOneElem.innerHTML = teamOneEmojis
+}
+
+function drawTeamTwo() {
+    const teamTwo = players.filter((player) => player.teamNumber == 2)
+    let teamTwoEmojis = ''
+    teamTwo.forEach((person) => teamTwoEmojis += `<span class="fs-2">${person.emoji}</span>`)
+    const teamTwoElem = document.getElementById('teamTwoPlayers')
+    teamTwoElem.innerHTML = teamTwoEmojis
+}
+
+
+function placeBetTeamOne() {
+    teamOneBet += 20
+    let teamOneTotalSkill = 0
+    console.log(`This is Team One's Bet: ${teamOneBet}`)
+    const teamOne = players.filter((player) => player.teamNumber == 1)
+    console.log(teamOne)
+    for (let i = 0; i < teamOne.length; i++) {
+        teamOneTotalSkill += teamOne[i].skill
+    }
+    let teamTwoTotalSkill = 0
+    console.log(teamTwoBet)
+    const teamTwo = players.filter((player) => player.teamNumber == 2)
+    for (let i = 0; i < teamTwo.length; i++) {
+        teamTwoTotalSkill += teamTwo[i].skill
+    }
+    checkTotalSkill(teamOneTotalSkill, teamTwoTotalSkill)
+    console.log(checkTotalSkill)
+}
+
+function placeBetTeamTwo() {
+    teamTwoBet += 20
+    // let teamTwoTotalSkill = 0
+    // console.log(teamTwoBet)
+    // const teamTwo = players.filter((player) => player.teamNumber == 2)
+    // for (let i = 0; i < teamTwo.length; i++) {
+    //     teamTwoTotalSkill += teamTwo[i].skill
+    // }
+    console.log(teamTwoTotalSkill)
+}
+
+function checkTotalSkill(teamOneSkill, teamTwoSkill) {
+    if (teamOneSkill > teamTwoSkill) {
+        bank += 25
+    } else {
+        bank -= 25
+    }
+    console.log(bank)
 }
 
 
